@@ -1,5 +1,3 @@
-// Archivo: server/controllers/notificacionController.js
-
 const Notificacion = require('../models/Notificacion');
 
 /**
@@ -48,5 +46,3 @@ exports.marcarComoLeida = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al marcar la notificación como leída', error: error.message });
     }
 };
-
-// ... Otras funciones como eliminarNotificacion, getNotificacionesNoLeidas

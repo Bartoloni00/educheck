@@ -1,6 +1,4 @@
-// Archivo: client/src/components/Registros/RegistroAsistencia.jsx
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import api from '../../services/api';
 
 function RegistroAsistencia({ institutos, onRegistroCreado }) {

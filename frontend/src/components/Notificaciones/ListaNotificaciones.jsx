@@ -1,6 +1,4 @@
-// Archivo: client/src/components/Notificaciones/ListaNotificaciones.jsx
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../../services/api';
 
 function ListaNotificaciones() {

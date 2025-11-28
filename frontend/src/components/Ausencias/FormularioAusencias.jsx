@@ -1,5 +1,3 @@
-// Archivo: client/src/components/Ausencias/FormularioAusencia.jsx
-
 import React, { useState } from 'react';
 import api from '../../services/api';
 

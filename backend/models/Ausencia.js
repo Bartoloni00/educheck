@@ -1,5 +1,3 @@
-// Archivo: server/models/Ausencia.js
-
 const mongoose = require('mongoose');
 
 const ausenciaSchema = new mongoose.Schema({

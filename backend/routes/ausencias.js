@@ -1,14 +1,9 @@
-// Archivo: server/routes/ausencias.js
-
 const express = require('express');
 const router = express.Router();
 const Ausencia = require('../models/Ausencia');
 const Notificacion = require('../models/Notificacion');
 const { auth, verificarRol } = require('../middleware/auth');
 
-// @route   POST /api/ausencias
-// @desc    Reportar ausencia (Docente)
-// @access  Private (Docente)
 router.post('/', auth, verificarRol('docente'), async (req, res) => {
   try {
     const { institutoId, fechaAusencia, motivo, descripcion } = req.body;

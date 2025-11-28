@@ -1,9 +1,4 @@
-// Archivo: server/controllers/usuarioController.js
-
 const Usuario = require('../models/Usuario');
-// Se asume la existencia de un generador de tokens para el login
-// const generarToken = require('../utils/generarToken'); // Si usas JWT
-
 /**
  * @desc Registrar un nuevo usuario (docente o instituto)
  * @route POST /api/usuarios/registro
@@ -92,5 +87,3 @@ exports.getPerfilUsuario = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al obtener el perfil', error: error.message });
     }
 };
-
-// ... Puedes añadir más funciones como actualizarPerfil, asignarDocenteAInstituto, etc.

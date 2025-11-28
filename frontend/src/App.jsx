@@ -1,13 +1,10 @@
-// Archivo: client/src/App.js
-
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import DashboardDocente from './components/Dashboard/DashboardDocente';
 import DashboardInstituto from './components/Dashboard/DashboardInstituto';
-import './App.css';
+import './app.css';
 
 // Componente para rutas protegidas
 const RutaProtegida = ({ children, rolRequerido }) => {

@@ -1,5 +1,3 @@
-// Archivo: server/routes/notificaciones.js
-
 const express = require('express');
 const router = express.Router();
 const Notificacion = require('../models/Notificacion');

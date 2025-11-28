@@ -1,5 +1,3 @@
-// Archivo: server/controllers/ausenciaController.js
-
 const Ausencia = require('../models/Ausencia');
 
 /**
@@ -82,5 +80,3 @@ exports.actualizarEstadoAusencia = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al actualizar el estado de la ausencia', error: error.message });
     }
 };
-
-// ... Otras funciones como getAusenciasPorDocente, getAusenciasPendientesPorInstituto

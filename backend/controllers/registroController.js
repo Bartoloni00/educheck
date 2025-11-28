@@ -1,5 +1,3 @@
-// Archivo: server/controllers/registroController.js
-
 const Registro = require('../models/Registro');
 
 /**
@@ -45,5 +43,3 @@ exports.getRegistrosPorUsuario = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al obtener los registros', error: error.message });
     }
 };
-
-// ... Otras funciones como getRegistrosPorInstituto, getUltimoRegistro (para ver si es entrada o salida)

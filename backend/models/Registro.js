@@ -1,5 +1,3 @@
-// Archivo: server/models/Registro.js
-
 const mongoose = require('mongoose');
 
 const registroSchema = new mongoose.Schema({

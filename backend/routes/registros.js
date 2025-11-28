@@ -1,5 +1,3 @@
-// Archivo: server/routes/registros.js
-
 const express = require('express');
 const router = express.Router();
 const Registro = require('../models/Registro');
