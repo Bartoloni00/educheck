@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/Usuario');
-const { auth } = require('../middleware/auth');
+const { auth, verificarRol } = require('../middleware/auth');
 const { registerUserToInstitute, removeUserFromInstitute } = require('../controllers/institutosController');
 
 // Obtener todos los institutos
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/:institutoId/asignar', auth, registerUserToInstitute);
-router.post('/:institutoId/desasignar', auth, removeUserFromInstitute);
+router.post('/:institutoId/asignar', [auth, verificarRol('docente')], registerUserToInstitute);
+router.post('/:institutoId/desasignar', [auth, verificarRol('docente')], removeUserFromInstitute);
 
 module.exports = router;
