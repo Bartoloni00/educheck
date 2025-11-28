@@ -74,7 +74,6 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validaciones
     if (!email || !password) {
       return res.status(400).json({ 
         mensaje: 'Por favor ingresa email y contraseña' 

@@ -6,6 +6,7 @@ import InicioDocente from "../../views/InicioDocente";
 import RegistroAsistencia from "../Registros/RegistroAsistencia";
 import FormularioAusencia from "../Ausencias/FormularioAusencias";
 import ListaNotificaciones from "../Notificaciones/ListaNotificaciones";
+import RegistroInstituto from "../../views/RegistroInstituto";
 
 function DashboardDocente() {
   const { usuario, logout } = useAuth();
@@ -30,9 +31,10 @@ function DashboardDocente() {
         ausencias={ausencias}
       />
     ),
-    registros: <RegistroAsistencia institutos={institutos} onRegistroCreado={cargarDatos} />,
-    ausencias: <FormularioAusencia institutos={institutos} onAusenciaCreada={cargarDatos} />,
-    notificaciones: <ListaNotificaciones />,
+    "Registros": <RegistroAsistencia institutos={institutos} onRegistroCreado={cargarDatos} />,
+    "Ausencias": <FormularioAusencia institutos={institutos} onAusenciaCreada={cargarDatos} />,
+    "Notificaciones": <ListaNotificaciones />,
+    "Registrarse en institución": <RegistroInstituto />,
   };
 
   return (
