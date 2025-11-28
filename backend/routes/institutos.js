@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/Usuario');
 const { auth } = require('../middleware/auth');
-const { registerUserToInstitute } = require('../controllers/institutosController');
+const { registerUserToInstitute, removeUserFromInstitute } = require('../controllers/institutosController');
 
 // Obtener todos los institutos
 router.get('/', async (req, res) => {
@@ -18,5 +18,6 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/:institutoId/asignar', auth, registerUserToInstitute);
+router.post('/:institutoId/desasignar', auth, removeUserFromInstitute);
 
 module.exports = router;
