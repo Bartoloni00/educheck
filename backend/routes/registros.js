@@ -40,7 +40,7 @@ router.get('/', auth, async (req, res) => {
       const fechaFin = new Date(fecha);
       fechaFin.setHours(23, 59, 59, 999);
       
-      filtro.fecha = {
+      filtro.createdAt = {
         $gte: fechaInicio,
         $lte: fechaFin
       };
@@ -49,7 +49,7 @@ router.get('/', auth, async (req, res) => {
     const registros = await Registro.find(filtro)
       .populate('usuario', 'nombre email telefono')
       .populate('instituto', 'nombre direccion')
-      .sort({ fecha: -1 })
+      .sort({ createdAt: -1 })
       .limit(100);
 
     res.json(registros);
@@ -70,7 +70,7 @@ router.get('/hoy', auth, async (req, res) => {
     finDia.setHours(23, 59, 59, 999);
 
     let filtro = {
-      fecha: {
+      createdAt: {
         $gte: hoy,
         $lte: finDia
       }
@@ -85,7 +85,7 @@ router.get('/hoy', auth, async (req, res) => {
     const registros = await Registro.find(filtro)
       .populate('usuario', 'nombre email')
       .populate('instituto', 'nombre')
-      .sort({ fecha: -1 });
+      .sort({ createdAt: -1 });
 
     res.json(registros);
   } catch (error) {
