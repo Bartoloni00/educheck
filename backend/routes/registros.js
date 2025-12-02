@@ -1,81 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Registro = require('../models/Registro');
-const Notificacion = require('../models/Notificacion');
 const { auth, verificarRol } = require('../middleware/auth');
+const { registrarAsistencia } = require('../controllers/registroController');
 
 // @route   POST /api/registros
 // @desc    Registrar entrada o salida
 // @access  Private (Docente)
-router.post('/', auth, verificarRol('docente'), async (req, res) => {
-  try {
-    const { institutoId, tipo, ubicacion, notas } = req.body;
-
-    // Validaciones
-    if (!institutoId || !tipo) {
-      return res.status(400).json({ 
-        mensaje: 'Instituto y tipo de registro son requeridos' 
-      });
-    }
-
-    // Verificar que el docente esté asignado a este instituto
-    const docente = req.usuario;
-    
-    // Convertir los IDs a string para comparación
-    const institutosAsignadosStr = docente.institutosAsignados.map(id => id.toString());
-    const institutoIdStr = institutoId.toString();
-    
-    console.log('Docente:', docente.nombre);
-    console.log('Institutos asignados:', institutosAsignadosStr);
-    console.log('Instituto seleccionado:', institutoIdStr);
-    
-    if (!institutosAsignadosStr.includes(institutoIdStr)) {
-      return res.status(403).json({ 
-        mensaje: 'No estás asignado a este instituto',
-        debug: {
-          institutosAsignados: institutosAsignadosStr,
-          institutoSeleccionado: institutoIdStr
-        }
-      });
-    }
-
-    // Crear registro
-    const registro = new Registro({
-      usuario: req.usuario.id,
-      instituto: institutoId,
-      tipo,
-      ubicacion,
-      notas
-    });
-
-    await registro.save();
-
-    // Crear notificación para el instituto
-    const notificacion = new Notificacion({
-      emisor: req.usuario.id,
-      receptor: institutoId,
-      tipo: 'registro',
-      titulo: tipo === 'entrada' ? 'Nueva entrada registrada' : 'Nueva salida registrada',
-      mensaje: `${req.usuario.nombre} ha registrado su ${tipo} a las ${new Date().toLocaleTimeString()}`
-    });
-
-    await notificacion.save();
-
-    // Enviar notificación en tiempo real
-    const io = req.app.get('io');
-    if (io) {
-      io.to(institutoId.toString()).emit('nueva-notificacion', notificacion);
-    }
-
-    res.status(201).json({
-      mensaje: 'Registro creado exitosamente',
-      registro
-    });
-  } catch (error) {
-    console.error('Error creando registro:', error);
-    res.status(500).json({ mensaje: 'Error del servidor', error: error.message });
-  }
-});
+router.post('/', auth, verificarRol('docente'), registrarAsistencia);
 
 // @route   GET /api/registros
 // @desc    Obtener registros (filtrados por rol)
@@ -108,7 +40,7 @@ router.get('/', auth, async (req, res) => {
       const fechaFin = new Date(fecha);
       fechaFin.setHours(23, 59, 59, 999);
       
-      filtro.fecha = {
+      filtro.createdAt = {
         $gte: fechaInicio,
         $lte: fechaFin
       };
@@ -117,7 +49,7 @@ router.get('/', auth, async (req, res) => {
     const registros = await Registro.find(filtro)
       .populate('usuario', 'nombre email telefono')
       .populate('instituto', 'nombre direccion')
-      .sort({ fecha: -1 })
+      .sort({ createdAt: -1 })
       .limit(100);
 
     res.json(registros);
@@ -138,7 +70,7 @@ router.get('/hoy', auth, async (req, res) => {
     finDia.setHours(23, 59, 59, 999);
 
     let filtro = {
-      fecha: {
+      createdAt: {
         $gte: hoy,
         $lte: finDia
       }
@@ -153,7 +85,7 @@ router.get('/hoy', auth, async (req, res) => {
     const registros = await Registro.find(filtro)
       .populate('usuario', 'nombre email')
       .populate('instituto', 'nombre')
-      .sort({ fecha: -1 });
+      .sort({ createdAt: -1 });
 
     res.json(registros);
   } catch (error) {

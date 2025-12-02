@@ -16,14 +16,6 @@ const registroSchema = new mongoose.Schema({
     enum: ['entrada', 'salida'],
     required: true
   },
-  fecha: {
-    type: Date,
-    default: Date.now
-  },
-  ubicacion: {
-    latitud: Number,
-    longitud: Number
-  },
   notas: {
     type: String,
     trim: true
