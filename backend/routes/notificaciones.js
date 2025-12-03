@@ -4,7 +4,8 @@ const Notificacion = require('../models/Notificacion');
 const { auth } = require('../middleware/auth');
 const {
   getNotificacionesUsuario,
-  marcarComoLeida
+  marcarComoLeida,
+  leerTodas
 } = require('../controllers/notificacionController')
 
 // @route   GET /api/notificaciones
@@ -20,19 +21,7 @@ router.put('/:id/leer', auth, marcarComoLeida);
 // @route   PUT /api/notificaciones/leer-todas
 // @desc    Marcar todas las notificaciones como leídas
 // @access  Private
-router.put('/leer-todas', auth, async (req, res) => {
-  try {
-    await Notificacion.updateMany(
-      { receptor: req.usuario.id, leida: false },
-      { leida: true, fechaLeida: new Date() }
-    );
-
-    res.json({ mensaje: 'Todas las notificaciones marcadas como leídas' });
-  } catch (error) {
-    console.error('Error marcando notificaciones:', error);
-    res.status(500).json({ mensaje: 'Error del servidor' });
-  }
-});
+router.put('/leer-todas', auth, leerTodas);
 
 // @route   POST /api/notificaciones
 // @desc    Enviar mensaje/notificación

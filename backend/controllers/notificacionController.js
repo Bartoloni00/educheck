@@ -54,3 +54,23 @@ exports.marcarComoLeida = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al marcar la notificación como leída', error: error.message });
     }
 };
+
+/**
+ * @desc Marcar todas las notificaciones como leidas
+ * @route PUT /api/notificaciones/leet-todas
+ * @access Private
+ */
+exports.leerTodas = async (req, res) => {
+  const receptorId = req.usuario.id; 
+
+  try {
+      await Notificacion.updateMany(
+        { receptor: receptorId, leida: false },
+        { leida: true, fechaLeida: new Date() }
+      );
+      
+      res.json({ mensaje: 'Todas las notificaciones fueron marcadas como leídas' });
+    } catch (error) {
+      res.status(500).json({ mensaje: 'Error del servidor' });
+    }
+}
