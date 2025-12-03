@@ -1,22 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import { getAllInstitutes } from "../../services/institutes";
 
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [institutes, setInstitutes] = useState([{}]);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: "",
+    nombre: "",
     email: "",
-    phone: "",
+    telefono: "",
     password: "",
-    role: "",
+    rol: "",
     institute: "",
   });
 
+  useEffect(() => {
+    const institute = async() => {
+      const response = await getAllInstitutes();
+      setInstitutes(response);
+    };
+    
+    institute();
+  }, []);
+  
+  
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -24,7 +36,7 @@ export const RegisterPage = () => {
       [name]: value,
     }));
   };
-
+  
   const onSubmit = async (e) => {
     e.preventDefault();
     await register(form);
@@ -54,9 +66,9 @@ export const RegisterPage = () => {
           <div>
             <label className="text-gray-300 text-sm">Nombre Completo</label>
             <input
-              name="name"
+              name="nombre"
               type="text"
-              value={form.name}
+              value={form.nombre}
               onChange={onChange}
               className="w-full mt-1 px-3 py-2 bg-[#1b1c1f] border border-gray-700 rounded-lg 
               text-gray-200 placeholder-gray-500 focus:outline-none focus:border-[#1378FF]"
@@ -82,9 +94,9 @@ export const RegisterPage = () => {
           <div>
             <label className="text-gray-300 text-sm">Teléfono</label>
             <input
-              name="phone"
+              name="telefono"
               type="tel"
-              value={form.phone}
+              value={form.telefono}
               onChange={onChange}
               className="w-full mt-1 px-3 py-2 bg-[#1b1c1f] border border-gray-700 rounded-lg 
               text-gray-200 placeholder-gray-500 focus:outline-none focus:border-[#1378FF]"
@@ -119,16 +131,15 @@ export const RegisterPage = () => {
           <div>
             <label className="text-gray-300 text-sm">Tipo de Cuenta</label>
             <select
-              name="role"
-              value={form.role}
+              name="rol"
+              value={form.rol}
               onChange={onChange}
               className="w-full mt-1 px-3 py-2 bg-[#1b1c1f] border border-gray-700 rounded-lg 
               text-gray-200 focus:outline-none focus:border-[#1378FF]"
             >
               <option value="" disabled>Seleccione un tipo</option>
               <option value="docente">Docente</option>
-              <option value="directivo">Directivo</option>
-              <option value="admin">Administrador</option>
+              <option value="instituto">Instituto</option>
             </select>
           </div>
 
@@ -143,15 +154,17 @@ export const RegisterPage = () => {
               text-gray-200 focus:outline-none focus:border-[#1378FF]"
             >
               <option value="" disabled>Seleccione un instituto</option>
-              <option value="instituto-1">Instituto 1</option>
-              <option value="instituto-2">Instituto 2</option>
-              <option value="instituto-3">Instituto 3</option>
+              {institutes.data?.map((institute) => (
+                <option key={institute.nombre} value={institute.nombre}>
+                  {institute.nombre}
+                </option>
+              ))}
             </select>
           </div>
 
           <button
             type="submit"
-            className="w-full py-2 rounded-lg font-semibold text-white bg-[#1378FF] hover:bg-[#0e63d1] transition"
+            className="cursor-pointer w-full py-2 rounded-lg font-semibold text-white bg-[#1378FF] hover:bg-[#0e63d1] transition"
           >
             Registrarme
           </button>

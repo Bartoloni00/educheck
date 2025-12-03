@@ -86,7 +86,7 @@ export const LoginPage = () => {
 
           <button
             type="submit"
-            className="w-full py-2 rounded-lg font-semibold text-white bg-[#1378FF] hover:bg-[#0e63d1] transition"
+            className="cursor-pointer w-full py-2 rounded-lg font-semibold text-white bg-[#1378FF] hover:bg-[#0e63d1] transition"
           >
             Entrar
           </button>

@@ -6,8 +6,8 @@ import { useAuth } from "../hooks/useAuth";
 export const Dashboard = () => {
   const { user } = useAuth();
 
-  const isDocente = user.role === "docente";
-  const isInstituto = user.role === "instituto";
+  const isDocente = user.rol === "docente";
+  const isInstituto = user.rol === "instituto";
 
   const data1 = [
     {
@@ -32,10 +32,9 @@ export const Dashboard = () => {
   return (
     <section>
       <h2 className="text-2xl font-semibold mb-6">
-        Bienvenido, {user.userName || "desconocido"}
+        Bienvenido, {user.nombre || "desconocido"}
       </h2>
 
-      {/* Estadisticas Generales */}
       <div className="grid grid-cols-3 gap-5 mb-8">
         {isDocente && <Card number={1} label="Institutos Asignados" />}
         {isInstituto && <Card number={1} label="Docentes Asignados" />}
@@ -43,6 +42,7 @@ export const Dashboard = () => {
         <Card number={0} label="Ausencias Pendientes" />
       </div>
 
+      {!isDocente && (
       <section>
         <h3 className="text-lg font-semibold my-2">Actividad de Hoy</h3>
 
@@ -54,8 +54,8 @@ export const Dashboard = () => {
         ]}  
         />
       </section>
+      )}
 
-      {/* Registros */}
       <section>
         <h3 className="text-lg font-semibold my-2">Registros</h3>
 
@@ -68,7 +68,6 @@ export const Dashboard = () => {
         )}
       </section>
 
-      {/* Ausencias (solo docentes) */}
       {isDocente && (
         <section>
           <h3 className="text-lg font-semibold my-4">Ausencias</h3>
