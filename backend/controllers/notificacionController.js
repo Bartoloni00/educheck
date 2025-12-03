@@ -6,18 +6,23 @@ const Notificacion = require('../models/Notificacion');
  * @access Private
  */
 exports.getNotificacionesUsuario = async (req, res) => {
-    // Asume que el ID del receptor viene de req.usuario._id
-    const receptorId = req.usuario._id; 
+    const receptorId = req.usuario.id; 
 
-    try {
+      try {
         const notificaciones = await Notificacion.find({ receptor: receptorId })
-            .sort({ createdAt: -1 })
-            .populate('emisor', 'nombre email rol'); 
-
-        res.json(notificaciones);
-    } catch (error) {
-        res.status(500).json({ mensaje: 'Error al obtener las notificaciones', error: error.message });
-    }
+          .populate('emisor', 'nombre email rol')
+          .sort({ createdAt: -1 })
+          .limit(50);
+    
+        const noLeidas = await Notificacion.countDocuments({ 
+          receptor: receptorId, 
+          leida: false 
+        });
+    
+        res.json({ notificaciones, noLeidas });
+      } catch (error) {
+        res.status(500).json({ mensaje: 'Error del servidor' });
+      }
 };
 
 /**

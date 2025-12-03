@@ -2,28 +2,14 @@ const express = require('express');
 const router = express.Router();
 const Notificacion = require('../models/Notificacion');
 const { auth } = require('../middleware/auth');
+const {
+  getNotificacionesUsuario
+} = require('../controllers/notificacionController')
 
 // @route   GET /api/notificaciones
 // @desc    Obtener notificaciones del usuario
 // @access  Private
-router.get('/', auth, async (req, res) => {
-  try {
-    const notificaciones = await Notificacion.find({ receptor: req.usuario.id })
-      .populate('emisor', 'nombre email rol')
-      .sort({ createdAt: -1 })
-      .limit(50);
-
-    const noLeidas = await Notificacion.countDocuments({ 
-      receptor: req.usuario.id, 
-      leida: false 
-    });
-
-    res.json({ notificaciones, noLeidas });
-  } catch (error) {
-    console.error('Error obteniendo notificaciones:', error);
-    res.status(500).json({ mensaje: 'Error del servidor' });
-  }
-});
+router.get('/', auth, getNotificacionesUsuario);
 
 // @route   PUT /api/notificaciones/:id/leer
 // @desc    Marcar notificación como leída
