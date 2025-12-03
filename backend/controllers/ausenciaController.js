@@ -1,6 +1,8 @@
 const Ausencia = require('../models/Ausencia');
 const Notificacion = require('../models/Notificacion');
 
+const estadosAdmitidos = ['pendiente', 'aprobada', 'rechazada'];
+
 /**
  * @desc Crea una nueva solicitud de ausencia por parte del docente
  * @route POST /api/ausencias
@@ -97,9 +99,17 @@ exports.actualizarEstadoAusencia = async (req, res) => {
             return res.status(404).json({ mensaje: 'Ausencia no encontrada' });
         }
 
+        if (!estadosAdmitidos.includes(estado)) {
+            return res.status(422).json({
+                mensaje: 'El estado seleccionado no se encuentra entre los admitidos (pendiente, aprobada, rechazada)'
+            });
+        }
+
         // Se asume que la autorización de rol ('instituto') se hizo en la ruta,
         // pero se debe verificar que la ausencia pertenezca al instituto logueado.
-        if (ausencia.instituto.toString() !== req.usuario.id) {
+        if (ausencia.instituto.toString() !== req.usuario.id.toString()) {
+            console.log('instituto token: ', req.usuario.id)
+            console.log('ausencia instituto: ', ausencia.instituto)
             return res.status(403).json({ mensaje: 'No podes modificar una ausencia que no pertenece a tu instituto.' });
         }
 

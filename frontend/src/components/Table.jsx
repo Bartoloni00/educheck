@@ -1,4 +1,4 @@
-import { tableColumns } from "../utils/tableColumns";
+import { tableColumns } from "../utils/TableColumns";
 
 export const Table = ({ type = "", data = [] }) => {
   const columns = tableColumns[type] || [];
