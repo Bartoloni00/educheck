@@ -41,8 +41,7 @@ exports.marcarComoLeida = async (req, res) => {
           return res.status(403).json({ mensaje: 'Esta notificacion no te pertenece.' });
         }
 
-        // **Añadir lógica de autorización (que el receptor sea req.usuario._id)**
-
+        // Añadir lógica de autorización (que el receptor sea req.usuario._id)
         if (!notificacion.leida) {
             notificacion.leida = true;
             notificacion.fechaLeida = new Date();
@@ -68,9 +67,49 @@ exports.leerTodas = async (req, res) => {
         { receptor: receptorId, leida: false },
         { leida: true, fechaLeida: new Date() }
       );
-      
+
       res.json({ mensaje: 'Todas las notificaciones fueron marcadas como leídas' });
     } catch (error) {
       res.status(500).json({ mensaje: 'Error del servidor' });
     }
+}
+
+/** 
+* @route   POST /api/notificaciones
+* @desc    Enviar mensaje/notificación
+* @access  Private
+*/
+exports.crearNotificacion = async (req, res) => {
+  const {receptorId, titulo, mensaje, tipo } = req.body;
+  const emisorId = req.usuario.id;
+  if (!receptorId || !titulo || !mensaje) {
+    return res.status(400).json({ mensaje: 'Todos los campos son requeridos' });
+  }
+
+  const estadosAdmitidos = ['mensaje', 'ausencia', 'registro', 'sistema']
+  if (tipo && !estadosAdmitidos.includes(tipo)) {
+    return res.status(422).json({
+        mensaje: 'El estado seleccionado no se encuentra entre los admitidos (mensaje, ausencia, registro, sistema)'
+    });
+  }
+
+  try {
+    const notificacion = new Notificacion({
+      emisor: emisorId,
+      receptor: receptorId,
+      tipo: tipo || 'mensaje',
+      titulo,
+      mensaje
+    });
+
+    await notificacion.save();
+
+    res.status(201).json({ 
+      mensaje: 'Notificación enviada exitosamente', 
+      notificacion 
+    });
+  } catch (error) {
+    console.error('Error enviando notificación:', error);
+    res.status(500).json({ mensaje: 'Error del servidor' });
+  }
 }
