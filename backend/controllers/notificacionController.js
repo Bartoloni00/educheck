@@ -37,6 +37,9 @@ exports.marcarComoLeida = async (req, res) => {
         if (!notificacion) {
             return res.status(404).json({ mensaje: 'Notificación no encontrada' });
         }
+        if (notificacion.receptor.toString() !== req.usuario.id.toString()) {
+          return res.status(403).json({ mensaje: 'Esta notificacion no te pertenece.' });
+        }
 
         // **Añadir lógica de autorización (que el receptor sea req.usuario._id)**
 

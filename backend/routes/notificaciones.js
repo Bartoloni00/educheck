@@ -3,7 +3,8 @@ const router = express.Router();
 const Notificacion = require('../models/Notificacion');
 const { auth } = require('../middleware/auth');
 const {
-  getNotificacionesUsuario
+  getNotificacionesUsuario,
+  marcarComoLeida
 } = require('../controllers/notificacionController')
 
 // @route   GET /api/notificaciones
@@ -14,28 +15,7 @@ router.get('/', auth, getNotificacionesUsuario);
 // @route   PUT /api/notificaciones/:id/leer
 // @desc    Marcar notificación como leída
 // @access  Private
-router.put('/:id/leer', auth, async (req, res) => {
-  try {
-    const notificacion = await Notificacion.findById(req.params.id);
-
-    if (!notificacion) {
-      return res.status(404).json({ mensaje: 'Notificación no encontrada' });
-    }
-
-    if (notificacion.receptor.toString() !== req.usuario.id) {
-      return res.status(403).json({ mensaje: 'No autorizado' });
-    }
-
-    notificacion.leida = true;
-    notificacion.fechaLeida = new Date();
-    await notificacion.save();
-
-    res.json({ mensaje: 'Notificación marcada como leída', notificacion });
-  } catch (error) {
-    console.error('Error marcando notificación:', error);
-    res.status(500).json({ mensaje: 'Error del servidor' });
-  }
-});
+router.put('/:id/leer', auth, marcarComoLeida);
 
 // @route   PUT /api/notificaciones/leer-todas
 // @desc    Marcar todas las notificaciones como leídas
