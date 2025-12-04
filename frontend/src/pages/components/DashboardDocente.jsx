@@ -5,7 +5,8 @@ import { tableColumns } from "@/utils/tableColumns";
 
 export const DashboardDocente = () => {
   const { registros, ausencias, institutos } = useDashboardDocente();
-
+  console.log({registros})
+  console.log({ausencias})
   return (
     <section className="space-y-8">
       <div className="grid grid-cols-3 gap-5">

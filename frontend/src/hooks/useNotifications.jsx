@@ -6,6 +6,8 @@ export const useNotifications = () => {
     data: { notificaciones: [] }
   });
 
+  console.log(notifications)
+
   useEffect(() => {
     const loadNotificaciones = async () => {
       const response = await getAllNotifications();

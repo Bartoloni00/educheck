@@ -10,38 +10,43 @@ export const useInstitutes = () => {
   const [formRemove, setFormRemove] = useState({ institutoId: "" });
 
   const onChangeAdd = (e) => {
-    const { name, value } = e.target;
-    setFormAdd({ ...formAdd, [name]: value });
+    setFormAdd((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const onChangeRemove = (e) => {
-    const { name, value } = e.target;
-    setFormRemove({ ...formRemove, [name]: value });
+    setFormRemove((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const loadData = async () => {
+    const all = await getAllInstitutes();
+    const mine = await getInstitutos();
+    setAddInstitutes(all.data);
+    setRemoveInstitutes(mine.data);
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      const all = await getAllInstitutes();
-      const mine = await getInstitutos();
-      setAddInstitutes(all.data);
-      setRemoveInstitutes(mine.data);
-    };
-
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadData();
   }, []);
 
   const handleAssign = async () => {
     if (!formAdd.institutoId) return;
-    const res = await agregarInstituto(formAdd.institutoId);
+
+    await agregarInstituto(formAdd.institutoId);
+
     setFormAdd({ institutoId: "" });
-    return res;
+
+    await loadData();
   };
 
   const handleRemove = async () => {
     if (!formRemove.institutoId) return;
-    const res = await removeInstituto(formRemove.institutoId);
+
+    await removeInstituto(formRemove.institutoId);
+
     setFormRemove({ institutoId: "" });
-    return res;
+
+    await loadData();
   };
 
   return {
@@ -52,6 +57,6 @@ export const useInstitutes = () => {
     onChangeAdd,
     onChangeRemove,
     handleAssign,
-    handleRemove
+    handleRemove,
   };
 };

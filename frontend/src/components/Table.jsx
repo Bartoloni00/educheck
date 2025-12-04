@@ -1,6 +1,7 @@
 export const Table = ({ data = [], columns = {}, type, onChangeEstado }) => {
   const cols = columns[type] || [];
 
+  // Componente para mostrar el estado con colores
   function EstadoBadge({ estado }) {
     let color = "bg-gray-300 text-gray-900";
     let text = estado || "sin confirmar";
@@ -9,6 +10,8 @@ export const Table = ({ data = [], columns = {}, type, onChangeEstado }) => {
       color = "bg-green-100 text-green-800";
     } else if (estado === "rechazada") {
       color = "bg-red-100 text-red-800";
+    } else if (estado === "pendiente") {
+      color = "bg-yellow-100 text-yellow-800";
     }
 
     return (
@@ -16,6 +19,29 @@ export const Table = ({ data = [], columns = {}, type, onChangeEstado }) => {
         {text}
       </span>
     );
+  }
+
+  // Función helper para renderizar cualquier valor de celda
+  function renderCell(row, key) {
+    const value = row[key];
+
+    if (!value) return "";
+
+    // Si es fechaAusencia, formateamos
+    if (key === "fechaAusencia") {
+      const date = new Date(value);
+      return date.toLocaleDateString("es-AR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    }
+
+    // Si es objeto (docente, instituto), mostramos nombre
+    if (typeof value === "object") return value.nombre || "";
+
+    // Por defecto, devolvemos el valor
+    return value;
   }
 
   return (
@@ -37,7 +63,10 @@ export const Table = ({ data = [], columns = {}, type, onChangeEstado }) => {
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td colSpan={cols.length} className="text-center py-6 text-gray-500">
+              <td
+                colSpan={cols.length}
+                className="text-center py-6 text-gray-500"
+              >
                 No hay resultados.
               </td>
             </tr>
@@ -54,20 +83,24 @@ export const Table = ({ data = [], columns = {}, type, onChangeEstado }) => {
                     ) : col.key === "acciones" ? (
                       <div className="flex gap-2">
                         <button
-                          onClick={() => onChangeEstado(row._id, "aceptada")}
+                          onClick={() =>
+                            onChangeEstado?.(row._id, "aceptada")
+                          }
                           className="px-2 py-1 text-xs bg-green-100 hover:bg-green-200 rounded text-green-800"
                         >
                           Aceptar
                         </button>
                         <button
-                          onClick={() => onChangeEstado(row._id, "rechazada")}
+                          onClick={() =>
+                            onChangeEstado?.(row._id, "rechazada")
+                          }
                           className="px-2 py-1 text-xs bg-red-100 hover:bg-red-200 rounded text-red-800"
                         >
                           Rechazar
                         </button>
                       </div>
                     ) : (
-                      row[col.key]
+                      renderCell(row, col.key)
                     )}
                   </td>
                 ))}

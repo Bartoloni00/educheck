@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getInstitutos } from "@/services/institutes";
+import { getInstitutos } from "../services/institutes";
 import { useAuth } from "@/hooks/useAuth";
+import { createRegistro } from "../services/registers";
 
 export const useAsistance = () => {
   const { user } = useAuth();
@@ -11,14 +12,11 @@ export const useAsistance = () => {
 
   const [form, setForm] = useState({
     institutoId: "",
-    Email: "",
-    Fecha: "",
-    Hora: "",
-    Tipo: ""
+    notas: "" // opcional si querés agregar un campo notas
   });
 
   const handleSelectType = (type) => {
-    setTypeQR(type);
+    setTypeQR(type === "ingreso" ? "entrada" : "salida");
   };
 
   const handleGenerateQR = () => {
@@ -35,12 +33,21 @@ export const useAsistance = () => {
     setValue(JSON.stringify(qrData));
   };
 
+  const handleSendAsistance = async () => {
+    const payload = {
+      institutoId: form.institutoId,
+      tipo: typeQR,
+      notas: form.notas || ""
+    };
+
+    console.log("ENVIANDO:", payload);
+    const res = await createRegistro(payload);
+    console.log("BACKEND:", res);
+  };
+
   const onChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   useEffect(() => {
@@ -58,6 +65,7 @@ export const useAsistance = () => {
     form,
     onChange,
     handleSelectType,
-    handleGenerateQR
+    handleGenerateQR,
+    handleSendAsistance
   };
 };

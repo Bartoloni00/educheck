@@ -1,5 +1,9 @@
 import { api } from './api';
 
-export const newRegister = (data) => api.post('/registros', data);
-export const getAllRegistros = () => api.get('/registros');
+export const createRegistro = async (data) => {
+  const response = await api.post("/registros", data);
+  return response.data;
+};
+
+export const getAllRegistros = () => api.get('/registros/hoy');
 export const asignarProfesor = (id) => api.post(`/institutos/${id}/asignar`);

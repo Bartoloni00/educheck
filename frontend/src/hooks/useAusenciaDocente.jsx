@@ -29,8 +29,13 @@ export const useAusenciaDocente = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await createAusencia(form);
-    navigate("/");
+
+    try {
+      await createAusencia(form);
+      navigate("/");
+    } catch (error) {
+      console.error("Error al enviar ausencia:", error);
+    }
   };
 
   return {

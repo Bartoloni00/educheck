@@ -1,17 +1,16 @@
 import { AlertCircle, CheckCircle, MailIcon } from "lucide-react";
+import { formatDate } from "../utils/formatDate";
 
 const ICONS = {
-  sistema: <AlertCircle size={22} />,
-  green: <CheckCircle size={22} />,
-  yellow: <AlertCircle size={22} />,
-  blue: <MailIcon size={22} />,
+  ausencia: <AlertCircle size={22} />,
+  registro: <CheckCircle size={22} />,
+  sistema: <MailIcon size={22} />,
 };
 
 const COLORS = {
-  sistema: "text-red-600",
-  green: "text-green-600",
-  yellow: "text-yellow-600",
-  blue: "text-blue-600",
+  ausencia: "text-red-600",
+  registro: "text-green-600",
+  sistema: "text-blue-600",
 };
 
 export const NotificationCard = ({ title, message, date, color }) => {
@@ -26,7 +25,7 @@ export const NotificationCard = ({ title, message, date, color }) => {
       <div className="flex flex-col p-4">
         <h3 className="text-2xl font-bold text-gray-900">{title}</h3>
         <p className="text-lg text-gray-700">{message}</p>
-        <time className="text-gray-500">{date}</time>
+        <time className="text-gray-500">{formatDate(date)}</time>
       </div>
     </div>
   );

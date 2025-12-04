@@ -7,6 +7,7 @@ export const AsistancePage = () => {
     value,
     institutes,
     form,
+    handleSendAsistance,
     onChange,
     handleSelectType,
     handleGenerateQR
@@ -61,6 +62,16 @@ export const AsistancePage = () => {
           <QRCode value={value} />
         </div>
       )}
+
+      <button
+        type="button"
+        onClick={handleSendAsistance}
+        disabled={!typeQR || !form.institutoId}
+        className="py-2 px-6 cursor-pointer hover:bg-purple-700 bg-purple-600 disabled:bg-gray-400 text-white rounded"
+      >
+        Enviar asistencia
+      </button>
+
     </section>
   );
 };

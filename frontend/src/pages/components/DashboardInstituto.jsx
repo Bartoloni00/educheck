@@ -21,7 +21,7 @@ export const DashboardInstituto = () => {
           events={[
             { date: "2025-01-01", start: "09:00", end: "10:00", title: "Reunión de equipo", color: "bg-indigo-700/60" },
             { date: "2025-01-02", start: "14:00", end: "15:30", title: "Desarrollo frontend", color: "bg-emerald-700/60" },
-            { date: "2025-01-03", start: "11:00", end: "12:00", title: "Llamada con cliente", color: "bg-rose-700/60" }
+            { date: "2025-01-03", start: "11:00", end: "12:00", title: "Llamada con cliente", color: "bg-rose-700/60" },
           ]}
         />
       </section>
