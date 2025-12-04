@@ -1,8 +1,7 @@
 export const tableColumns = {
   registros: [
     { key: "instituto", label: "Instituto" },
-    { key: "entrada", label: "Entrada" },
-    { key: "salida", label: "Salida" },
+    { key: "tipo", label: "Tipo" },
     { key: "fecha", label: "Fecha" },
   ],
 

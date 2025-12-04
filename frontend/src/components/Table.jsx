@@ -1,3 +1,5 @@
+import { formatDate } from "../utils/formatDate";
+
 export const Table = ({ data = [], columns = {}, type, onChangeEstado }) => {
   const cols = columns[type] || [];
 
@@ -21,27 +23,27 @@ export const Table = ({ data = [], columns = {}, type, onChangeEstado }) => {
     );
   }
 
-  // Función helper para renderizar cualquier valor de celda
   function renderCell(row, key) {
-    const value = row[key];
-
-    if (!value) return "";
-
-    // Si es fechaAusencia, formateamos
-    if (key === "fechaAusencia") {
-      const date = new Date(value);
-      return date.toLocaleDateString("es-AR", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      });
+    if (key === "fecha") {
+      const date = new Date(row.createdAt);
+      return formatDate(date);
     }
 
-    // Si es objeto (docente, instituto), mostramos nombre
-    if (typeof value === "object") return value.nombre || "";
+    if (key === "fechaAusencia") {
+      const date = new Date(row.fechaAusencia);
+      return formatDate(date);
+    }
 
-    // Por defecto, devolvemos el valor
-    return value;
+    if (key === "tipo") {
+      return row.tipo === "entrada" ? "Entrada" : "Salida";
+    }
+
+    if (key === "instituto") {
+      return row.instituto?.nombre || "";
+    }
+
+    const value = row[key];
+    return value ?? "";
   }
 
   return (
