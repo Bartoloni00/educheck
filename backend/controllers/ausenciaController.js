@@ -22,12 +22,12 @@ exports.crearAusencia = async (req, res) => {
         }
 
         const fechaAus = new Date(fechaAusencia);
-        const hoy = new Date();
+        /*const hoy = new Date();
         hoy.setHours(0, 0, 0, 0);
 
         if (fechaAus < hoy) {
             return res.status(400).json({ mensaje: 'No puedes reportar ausencias para fechas pasadas' });
-        }
+        }*/
 
         const ausencia = new Ausencia({
             docente: docenteId,
@@ -108,8 +108,6 @@ exports.actualizarEstadoAusencia = async (req, res) => {
         // Se asume que la autorización de rol ('instituto') se hizo en la ruta,
         // pero se debe verificar que la ausencia pertenezca al instituto logueado.
         if (ausencia.instituto.toString() !== req.usuario.id.toString()) {
-            console.log('instituto token: ', req.usuario.id)
-            console.log('ausencia instituto: ', ausencia.instituto)
             return res.status(403).json({ mensaje: 'No podes modificar una ausencia que no pertenece a tu instituto.' });
         }
 
