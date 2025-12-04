@@ -27,41 +27,38 @@ export const AusenciaInstituto = () => {
   } = useAusenciaInstituto();
 
   return (
-    <>
-      <h2 className="text-2xl mb-4">Ausencias del Instituto</h2>
+    <section className="space-y-6">
+      <h2 className="text-2xl font-semibold mb-4">Ausencias del Instituto</h2>
 
-      <div className="flex gap-4 mb-4">
+      {/* Filtros */}
+      <div className="flex gap-4 mb-4 flex-wrap">
         <input
           type="text"
           placeholder="Buscar docente..."
           value={filtroNombre}
           onChange={(e) => setFiltroNombre(e.target.value)}
-          className="px-3 py-2 bg-[#1b1c1f] border border-gray-700 rounded-lg text-gray-200"
+          className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900"
         />
 
         <select
           value={filtroMotivo}
           onChange={(e) => setFiltroMotivo(e.target.value)}
-          className="px-3 py-2 bg-[#1b1c1f] border border-gray-700 rounded-lg text-gray-200"
+          className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900"
         >
           <option value="">Todos los motivos</option>
           {motivos.map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
+            <option key={m} value={m}>{m}</option>
           ))}
         </select>
 
         <select
           value={filtroEstado}
           onChange={(e) => setFiltroEstado(e.target.value)}
-          className="px-3 py-2 bg-[#1b1c1f] border border-gray-700 rounded-lg text-gray-200"
+          className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900"
         >
           <option value="">Todos los estados</option>
           {estados.map((e) => (
-            <option key={e} value={e}>
-              {e}
-            </option>
+            <option key={e} value={e}>{e}</option>
           ))}
         </select>
       </div>
@@ -72,6 +69,6 @@ export const AusenciaInstituto = () => {
         columns={tableColumns}
         onChangeEstado={onChangeEstado}
       />
-    </>
+    </section>
   );
 };

@@ -9,7 +9,7 @@ export const NotificationsPage = () => {
       <h2 className="text-2xl mb-6">Notificaciones</h2>
 
       {list.length === 0 && (
-        <div className="bg-[#202225] border border-gray-800 rounded-xl p-6 h-48 flex items-center justify-center text-gray-400">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-md h-48 flex items-center justify-center text-gray-400">
           No hay notificaciones
         </div>
       )}

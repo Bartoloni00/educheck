@@ -13,29 +13,27 @@ export const AsistancePage = () => {
   } = useAsistance();
 
   return (
-    <>
+    <section className="space-y-6">
       <div>
-        <label className="text-gray-300 text-sm">Instituto donde trabaja</label>
+        <label className="text-gray-700 text-sm">Instituto donde trabaja</label>
         <select
           name="institutoId"
           value={form.institutoId}
           onChange={onChange}
-          className="w-full mt-1 px-3 py-2 bg-[#1b1c1f] border border-gray-700 rounded-lg text-gray-200 focus:outline-none focus:border-[#1378FF]"
+          className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-[#1378FF]"
         >
           <option value="" disabled>Seleccione un instituto</option>
           {institutes.data.map((inst) => (
-            <option key={inst.nombre} value={inst._id}>
-              {inst.nombre}
-            </option>
+            <option key={inst._id} value={inst._id}>{inst.nombre}</option>
           ))}
         </select>
       </div>
 
-      <menu className="flex flex-row gap-2 mb-10 mt-4">
+      <menu className="flex flex-row gap-2">
         <button
           type="button"
           onClick={() => handleSelectType("ingreso")}
-          className="py-2 px-6 cursor-pointer hover:bg-green-700 bg-green-600"
+          className="py-2 px-6 cursor-pointer hover:bg-green-700 bg-green-600 text-white rounded"
         >
           Ingreso
         </button>
@@ -43,7 +41,7 @@ export const AsistancePage = () => {
         <button
           type="button"
           onClick={() => handleSelectType("salida")}
-          className="py-2 px-6 cursor-pointer hover:bg-red-700 bg-red-600"
+          className="py-2 px-6 cursor-pointer hover:bg-red-700 bg-red-600 text-white rounded"
         >
           Salida
         </button>
@@ -52,7 +50,7 @@ export const AsistancePage = () => {
           type="button"
           onClick={handleGenerateQR}
           disabled={!typeQR || !form.institutoId}
-          className="py-2 px-6 cursor-pointer hover:bg-sky-700 bg-sky-600 disabled:bg-gray-400"
+          className="py-2 px-6 cursor-pointer hover:bg-sky-700 bg-sky-600 disabled:bg-gray-400 text-white rounded"
         >
           Generar QR
         </button>
@@ -63,6 +61,6 @@ export const AsistancePage = () => {
           <QRCode value={value} />
         </div>
       )}
-    </>
+    </section>
   );
 };

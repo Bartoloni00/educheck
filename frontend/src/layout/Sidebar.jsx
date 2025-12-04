@@ -18,7 +18,7 @@ export const Sidebar = ({ open, setOpen }) => {
     <>
       {open && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/20 z-40 lg:hidden"
           onClick={() => setOpen(false)}
         />
       )}
@@ -30,19 +30,19 @@ export const Sidebar = ({ open, setOpen }) => {
         className="
           fixed top-0 left-0
           h-full w-64
-          bg-[#202225]
-          border-r border-gray-800
+          bg-white
+          border-r border-gray-300
           p-5 flex flex-col
           z-50
         "
       >
         <div className="flex justify-end mb-4">
           <button onClick={() => setOpen(false)}>
-            <X size={24} className="text-white" />
+            <X size={24} className="text-gray-900" />
           </button>
         </div>
 
-        <h1 className="text-xl font-bold mb-6 text-white text-center">EduCheck</h1>
+        <h1 className="text-xl font-bold mb-6 text-gray-900 text-center">EduCheck</h1>
 
         <nav className="space-y-2 flex-1">
           <NavItem icon={<Home size={18} />} label="Inicio" to="/" />
@@ -64,7 +64,8 @@ export const Sidebar = ({ open, setOpen }) => {
 
         <button
           onClick={handleLogout}
-          className="w-full cursor-pointer flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition bg-[#2c2f33] text-white hover:text-gray-300 hover:bg-[#2a2d31]"
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition 
+            bg-[#e5e7eb] text-gray-900 hover:text-gray-700 hover:bg-[#d1d5db]"
         >
           <LogOut size={18} />
           <span>Cerrar Sesión</span>

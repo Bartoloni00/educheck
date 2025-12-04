@@ -2,7 +2,7 @@ import { Mail, Phone } from 'lucide-react';
 
 export const CardInfo = ({ docente }) => {
   return (
-    <div className="p-4 border rounded-lg">
+    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-md">
       <h3 className="flex flex-row gap-2 text-2xl font-bold">
         {docente.nombre}
       </h3>

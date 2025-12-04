@@ -2,10 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export const CalendarWeekView = ({ initialDate = "2025-01-01", events = [] }) => {
-  // Local internal state for navigation
   const [currentDate, setCurrentDate] = React.useState(initialDate);
 
-  // compute local "today" in YYYY-MM-DD using local timezone (prevents off-by-one)
   const getLocalTodayISO = () => {
     const t = new Date();
     const y = t.getFullYear();
@@ -20,41 +18,32 @@ export const CalendarWeekView = ({ initialDate = "2025-01-01", events = [] }) =>
     if (today.getFullYear() === 2025) setCurrentDate(todayISO);
   };
 
-  // Generate 7 dynamic days from currentDate
   const days = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(currentDate);
     date.setDate(date.getDate() + i);
-
-    const label = date.toLocaleDateString("en-US", { weekday: "short" });
-    let number = date.getDate();
-    number = number + 1; // FORCE +1();
-
+    const label = date.toLocaleDateString("es-AR", { weekday: "short" });
+    const number = date.getDate();
     return { label, number, full: date.toISOString().split("T")[0] };
   });
 
-  const hours = Array.from({ length: 24 }, (_, i) => i); // 00:00 to 23:00
+  const hours = Array.from({ length: 24 }, (_, i) => i);
 
   const getPosition = (time) => {
-    // expects HH:MM 24h format
     const [hStr, mStr] = time.split(":");
     const h = parseInt(hStr, 10);
     const m = parseInt(mStr || "0", 10);
-    // position relative to 00:00, but visually we can start at top
-    return h * 60 + m; // px units; you can scale if needed
+    return h * 60 + m; // px
   };
-const [y, m, d] = currentDate.split("-").map(Number);
-let startDateObj = new Date(y, m - 1, d);
 
-let rawMonth = startDateObj.toLocaleString("es-AR", { month: "long" }).toUpperCase();
-const monthLabel = rawMonth;
-const yearLabel = startDateObj.getFullYear();
-
-const todayISO = getLocalTodayISO();
-
+  const [y, m, d] = currentDate.split("-").map(Number);
+  let startDateObj = new Date(y, m - 1, d);
+  const monthLabel = startDateObj.toLocaleString("es-AR", { month: "long" }).toUpperCase();
+  const yearLabel = startDateObj.getFullYear();
+  const todayISO = getLocalTodayISO();
 
   return (
-    <div className="w-full max-h-[500px] overflow-auto bg-[#202225] border border-gray-800 text-white p-6 rounded-xl shadow-xl">
-      {/* Header: prev - hoy - next  |  month year  (justify-between) */}
+    <div className="w-full max-h-[500px] overflow-auto bg-white border border-gray-200 text-gray-900 p-6 rounded-xl shadow-md">
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <button
@@ -63,12 +52,12 @@ const todayISO = getLocalTodayISO();
               d.setDate(d.getDate() - 7);
               if (d.getFullYear() === 2025) setCurrentDate(d.toISOString().split("T")[0]);
             }}
-            className="px-3 py-1 bg-slate-700 rounded-lg"
+            className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300"
           >Prev</button>
 
           <button
             onClick={goToToday}
-            className="px-3 py-1 bg-indigo-600 rounded-lg"
+            className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-lg hover:bg-indigo-200"
           >Hoy</button>
 
           <button
@@ -77,59 +66,55 @@ const todayISO = getLocalTodayISO();
               d.setDate(d.getDate() + 7);
               if (d.getFullYear() === 2025) setCurrentDate(d.toISOString().split("T")[0]);
             }}
-            className="px-3 py-1 bg-slate-700 rounded-lg"
+            className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300"
           >Next</button>
         </div>
 
         <div className="text-center">
-          <div className="text-sm text-slate-300">{monthLabel} - {yearLabel}</div>
+          <div className="text-sm text-gray-700">{monthLabel} - {yearLabel}</div>
         </div>
 
         <div className="w-24" />
       </div>
 
-      <div className="grid grid-cols-8 border-t border-l border-slate-700 text-center text-sm">
-        <div className="border-r border-slate-700"></div>
+      {/* Days header */}
+      <div className="grid grid-cols-8 border-t border-l border-gray-200 text-center text-sm">
+        <div className="border-r border-gray-200"></div>
         {days.map((d) => (
           <div
             key={d.full}
-            className="py-3 border-r border-slate-700 flex flex-col items-center"
+            className="py-3 border-r border-gray-200 flex flex-col items-center"
           >
-            <span className="text-xs text-slate-300">{d.label}</span>
-            <span className={
-              `font-bold px-2 py-1 rounded-full transition-all duration-200 ${
-                d.full === todayISO
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "text-indigo-400 bg-transparent"
-              }`
-            }>
+            <span className="text-xs text-gray-500">{d.label}</span>
+            <span className={`
+              font-bold px-2 py-1 rounded-full transition-all duration-200
+              ${d.full === todayISO ? "bg-indigo-600 text-white shadow-lg" : "text-indigo-700 bg-transparent"}
+            `}>
               {d.number}
             </span>
           </div>
         ))}
       </div>
 
-      <div className="relative grid grid-cols-8 border-l border-t border-slate-800">
+      {/* Calendar grid */}
+      <div className="relative grid grid-cols-8 border-l border-t border-gray-200">
         {/* Hours column */}
-        <div className="border-r border-slate-700 relative">
+        <div className="border-r border-gray-200 relative">
           {hours.map((h) => (
             <div
               key={h}
-              className="h-16 border-b border-slate-800 text-xs text-slate-400 px-2 flex items-start"
+              className="h-16 border-b border-gray-200 text-xs text-gray-500 px-2 flex items-start"
             >
               {h.toString().padStart(2, "0") + ":00"}
             </div>
           ))}
         </div>
 
-        {/* Days grid */}
+        {/* Days columns */}
         {days.map((d) => (
-          <div
-            key={d.full}
-            className="border-r border-slate-800 relative"
-          >
+          <div key={d.full} className="border-r border-gray-200 relative">
             {hours.map((h) => (
-              <div key={h} className="h-16 border-b border-slate-800" />
+              <div key={h} className="h-16 border-b border-gray-200" />
             ))}
 
             {/* Events */}
@@ -146,11 +131,11 @@ const todayISO = getLocalTodayISO();
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2 }}
-                    className={`absolute left-1 right-1 p-2 rounded-lg text-xs ${e.color} backdrop-blur-md shadow-lg`}
+                    className={`absolute left-1 right-1 p-2 rounded-lg text-xs ${e.color} shadow-md`}
                     style={{ top, height }}
                   >
-                    <div className="font-bold text-slate-200">{e.start}</div>
-                    <div className="text-slate-300">{e.title}</div>
+                    <div className="font-bold text-gray-900">{e.start}</div>
+                    <div className="text-gray-700">{e.title}</div>
                   </motion.div>
                 );
               })}
@@ -159,4 +144,4 @@ const todayISO = getLocalTodayISO();
       </div>
     </div>
   );
-}
+};

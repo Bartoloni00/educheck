@@ -8,16 +8,15 @@ export const DashboardInstituto = () => {
   const { registros, ausencias, docentes } = useDashboardInstituto();
 
   return (
-    <section>
-      <div className="grid grid-cols-3 gap-5 mb-8">
+    <section className="space-y-8">
+      <div className="grid grid-cols-3 gap-5">
         <Card number={docentes.length || 0} label="Docentes Asignados" />
         <Card number={registros.length || 0} label="Registros de Hoy" />
         <Card number={ausencias.length || 0} label="Ausencias Pendientes" />
       </div>
 
       <section>
-        <h3 className="text-lg font-semibold my-2">Actividad de Hoy</h3>
-
+        <h3 className="text-lg font-semibold mb-2">Actividad de Hoy</h3>
         <CalendarWeekView
           events={[
             { date: "2025-01-01", start: "09:00", end: "10:00", title: "Reunión de equipo", color: "bg-indigo-700/60" },
@@ -28,12 +27,11 @@ export const DashboardInstituto = () => {
       </section>
 
       <section>
-        <h3 className="text-lg font-semibold my-4">Registros</h3>
-
+        <h3 className="text-lg font-semibold mb-2">Registros</h3>
         {registros.length ? (
           <Table type="registros" data={registros} columns={tableColumns} />
         ) : (
-          <div className="bg-[#202225] border border-gray-800 rounded-xl p-6 h-48 flex items-center justify-center text-gray-400">
+          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-md h-48 flex items-center justify-center text-gray-400">
             No hay registros para hoy
           </div>
         )}

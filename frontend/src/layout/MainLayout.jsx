@@ -13,9 +13,9 @@ export const MainLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#1b1c1f] text-gray-200">
+    <div className="min-h-screen bg-[#f3f4f6] text-gray-900">
 
-      <header className="fixed top-0 left-0 right-0 h-16 bg-[#1b1c1f] flex items-center px-4 z-40">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#f3f4f6] flex items-center px-4 z-40">
         {!open && (
           <button onClick={() => setOpen(true)}>
             <Menu size={26} />
