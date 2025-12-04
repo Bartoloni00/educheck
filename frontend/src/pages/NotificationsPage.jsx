@@ -1,37 +1,28 @@
-import { NotificationCard } from "../components/NotificationCard";
+import { NotificationCard } from "@/components/NotificationCard";
+import { useNotifications } from "@/hooks/useNotifications";
 
 export const NotificationsPage = () => {
+  const { list } = useNotifications();
+
   return (
     <section className="flex flex-col space-y-4">
       <h2 className="text-2xl mb-6">Notificaciones</h2>
 
-      <NotificationCard
-        color="red"
-        title="Ausencia registrada"
-        message="El instituto registró una ausencia en tu nombre."
-        date="7/11/2025 - 10:45hs"
-      />
+      {list.length === 0 && (
+        <div className="bg-[#202225] border border-gray-800 rounded-xl p-6 h-48 flex items-center justify-center text-gray-400">
+          No hay notificaciones
+        </div>
+      )}
 
-      <NotificationCard
-        color="green"
-        title="Asistencia confirmada"
-        message="Tu asistencia fue registrada correctamente."
-        date="7/11/2025 - 09:12hs"
-      />
-
-      <NotificationCard
-        color="yellow"
-        title="Advertencia del instituto"
-        message="Tienes una advertencia pendiente de revisar."
-        date="6/11/2025 - 15:22hs"
-      />
-
-      <NotificationCard
-        color="blue"
-        title="Nuevo mensaje"
-        message="Recibiste un nuevo comunicado del instituto."
-        date="5/11/2025 - 08:10hs"
-      />
+      {list.map((notificacion) => (
+        <NotificationCard
+          key={notificacion._id}
+          color={notificacion.tipo}
+          title={notificacion.titulo}
+          message={notificacion.mensaje}
+          date={notificacion.updatedAt}
+        />
+      ))}
     </section>
   );
 };

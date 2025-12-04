@@ -1,6 +1,6 @@
 import { Home, Users, Bell, LogOut, Book, BookCheck } from "lucide-react";
-import { NavItem } from "../components/NavItem";
-import { useAuth } from "../hooks/useAuth";
+import { NavItem } from "@/components/NavItem";
+import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 export const Sidebar = () => {
@@ -25,7 +25,10 @@ export const Sidebar = () => {
         )}
 
         {role === "docente" && (
-          <NavItem icon={<BookCheck size={18} />} label="Asistencia" to="/asistence" />
+          <>
+            <NavItem icon={<BookCheck size={18} />} label="Asistencia" to="/asistence" />
+            <NavItem icon={<BookCheck size={18} />} label="Instituto" to="/institute" />
+          </>
         )}
 
         <NavItem icon={<Book size={18} />} label="Ausencias" to="/ausencia" />

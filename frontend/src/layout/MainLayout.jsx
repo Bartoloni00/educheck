@@ -1,6 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 export const MainLayout = () => {
   const { user } = useAuth();

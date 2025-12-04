@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { loginRequest, registerRequest } from "../services/auth";
-import { setAuthToken } from "../services/api";
+import { loginRequest, registerRequest } from "@/services/services.api.js";
+import { setAuthToken } from "@/services/api";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }) => {

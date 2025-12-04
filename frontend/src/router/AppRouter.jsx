@@ -1,14 +1,15 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { MainLayout } from "../layout/MainLayout";
-import { Dashboard } from "../pages/HomePage";
-import { LoginPage } from "../pages/auth/LoginPage";
-import { RegisterPage } from "../pages/auth/RegisterPage";
-import { AuthLayout } from "../layout/AuthLayout";
-import { AsistancePage } from "../pages/AsistancePage";
-import { NotificationsPage } from "../pages/NotificationsPage";
-import { DocentesPage } from "../pages/DocentesPage";
-import { AusenciaPage } from "../pages/AusenciaPage";
+import { MainLayout } from "@/layout/MainLayout";
+import { Dashboard } from "@/pages/HomePage";
+import { LoginPage } from "@/pages/auth/LoginPage";
+import { RegisterPage } from "@/pages/auth/RegisterPage";
+import { AuthLayout } from "@/layout/AuthLayout";
+import { AsistancePage } from "@/pages/AsistancePage";
+import { NotificationsPage } from "@/pages/NotificationsPage";
+import { DocentesPage } from "@/pages/DocentesPage";
+import { AusenciaPage } from "@/pages/AusenciaPage";
 import { PrivateRoutes } from "./PrivateRoutes";
+import { InstitutePage } from "@/pages/InstitutePage";
 
 export const AppRouter = () => {
   return (
@@ -30,6 +31,7 @@ export const AppRouter = () => {
 
         <Route element={<PrivateRoutes roles={["docente"]} />}>
           <Route path="asistence" element={<AsistancePage />} />
+          <Route path="institute" element={<InstitutePage />} />
         </Route>
 
         <Route element={<PrivateRoutes roles={["instituto"]} />}>

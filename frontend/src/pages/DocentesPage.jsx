@@ -1,20 +1,8 @@
-import { useEffect, useState } from "react"
-import { CardInfo } from "../components/CardInfo"
-import { getAllDocentes } from "../services/institutes"
+import { CardInfo } from "@/components/CardInfo";
+import { useDocentes } from "@/hooks/useDocentes";
 
 export const DocentesPage = () => {
-  const [docentes, setDocentes] = useState({ data: [] });
-
-  useEffect(() => {
-    const fetchDocentes = async () => {
-      const response = await getAllDocentes();
-      console.log({ response })
-      setDocentes(response);
-    };
-
-    fetchDocentes();
-  }, []);
-  
+  const { docentes } = useDocentes();
 
   return (
     <section>
@@ -22,7 +10,7 @@ export const DocentesPage = () => {
 
       <div className="grid grid-cols-3 gap-2">
         {docentes.data?.map((docente) => (
-          <CardInfo key={docente.id} docente={docente} />
+          <CardInfo key={docente.nombre} docente={docente} />
         ))}
       </div>
     </section>
