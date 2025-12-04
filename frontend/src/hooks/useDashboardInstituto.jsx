@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getAllRegistros } from "@/services/registers";
 import { getAllAusencias } from "@/services/ausencias";
 import { getAllDocentes } from "@/services/institutes";
+import { getRegistros } from "@/services/registers";
 
 export const useDashboardInstituto = () => {
   const [registros, setRegistros] = useState([]);
@@ -10,11 +10,15 @@ export const useDashboardInstituto = () => {
 
   useEffect(() => {
     const load = async () => {
-      setRegistros(await getAllRegistros());
-      setAusencias(await getAllAusencias());
+      const regs = await getRegistros();
+      const aus = await getAllAusencias();
       const docs = await getAllDocentes();
+
+      setRegistros(regs.data || []);
+      setAusencias(aus.data || []);
       setDocentes(docs.data || []);
     };
+
     load();
   }, []);
 

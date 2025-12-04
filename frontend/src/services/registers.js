@@ -5,5 +5,6 @@ export const createRegistro = async (data) => {
   return response.data;
 };
 
+export const getRegistros = () => api.get('/registros');
 export const getAllRegistros = () => api.get('/registros/hoy');
 export const asignarProfesor = (id) => api.post(`/institutos/${id}/asignar`);
